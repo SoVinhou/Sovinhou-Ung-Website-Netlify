@@ -284,22 +284,7 @@ function Chatbox() {
               onBlur={() => setIsInputFocused(false)}
               style={isMobile ? { minHeight: '40px', fontSize: '16px', background: '#fff', zIndex: 2 } : {}}
             />
-            {/* Custom placeholder for mobile to ensure visibility */}
-            {isMobile && !inputMessage && !isLoading && (
-              <span
-                className="custom-placeholder"
-                style={{
-                  position: 'absolute',
-                  left: '12px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: '#aaa',
-                  pointerEvents: 'none',
-                  fontSize: '16px',
-                  zIndex: 1
-                }}
-              >Ask me...</span>
-            )}
+
             <button
               onClick={sendMessage}
               disabled={!inputMessage.trim() || isLoading}
