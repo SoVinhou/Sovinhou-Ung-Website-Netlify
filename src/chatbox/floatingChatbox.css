@@ -1,0 +1,58 @@
+/* Floating Chatbox Container - positions the chatbox in bottom right corner */
+.floating-chatbox-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  pointer-events: none; /* Allow clicks to pass through to underlying content */
+}
+
+/* Enable pointer events for the chatbox elements */
+.floating-chatbox-container .chat-button-container,
+.floating-chatbox-container .chat-window,
+.floating-chatbox-container .mobile-close-button,
+.floating-chatbox-container .chat-overlay {
+  pointer-events: auto;
+}
+
+/* Ensure proper stacking for mobile overlay */
+.floating-chatbox-container .chat-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+/* Adjust mobile positioning */
+@media (max-width: 768px) {
+  .floating-chatbox-container {
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
+/* Override any absolute positioning in the original chatbox CSS */
+.floating-chatbox-container .chat-button-container {
+  position: relative !important;
+}
+
+.floating-chatbox-container .chat-window {
+  position: absolute !important;
+  bottom: 80px !important;
+  right: 0 !important;
+}
+
+/* Mobile full screen override */
+@media (max-width: 768px) {
+  .floating-chatbox-container .chat-window.mobile.open {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+}
