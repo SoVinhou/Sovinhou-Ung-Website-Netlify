@@ -1,3 +1,47 @@
+/* Custom placeholder for mobile chat input */
+.custom-placeholder {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none;
+  font-size: 16px;
+  z-index: 1;
+  transition: opacity 0.2s;
+  font-family: inherit;
+}
+
+/* When input is focused, ensure chat window stays above keyboard and transitions smoothly */
+.chat-window.mobile.input-focused {
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  transition: height 0.3s;
+  box-shadow: 0 0 0 0 transparent;
+}
+
+/* Make sure chat input wrapper is always visible above keyboard */
+.chat-input-wrapper {
+  position: relative;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 4px;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .chat-window.mobile.input-focused {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    transition: height 0.3s;
+  }
+  .chat-input {
+    min-height: 40px;
+    font-size: 16px;
+    background: #fff;
+    z-index: 2;
+  }
+}
 /* Global Styles */
 * {
   margin: 0;

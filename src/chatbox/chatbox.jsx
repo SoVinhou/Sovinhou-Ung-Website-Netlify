@@ -15,24 +15,33 @@ function Chatbox() {
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Check if mobile device
+  // Check if mobile device and track viewport height for keyboard
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    // Listen for viewport height changes (keyboard open/close)
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Auto scroll to bottom
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isInputFocused]);
 
   // Focus input when chat opens
   useEffect(() => {
@@ -50,36 +59,41 @@ function Chatbox() {
 
     const userMessage = inputMessage.trim();
     setInputMessage('');
-    
+
     // Add user message to chat
-    setMessages(prev => [...prev, { 
-      type: 'user', 
-      content: userMessage 
+    setMessages(prev => [...prev, {
+      type: 'user',
+      content: userMessage
     }]);
-    
+
     setIsLoading(true);
 
     try {
       // Use the chatService instead of direct backend call
       const result = await chatWithAI(userMessage, sessionId);
-      
+
       if (result.success) {
         setSessionId(result.session_id);
-        setMessages(prev => [...prev, { 
-          type: 'ai', 
-          content: result.response 
+        setMessages(prev => [...prev, {
+          type: 'ai',
+          content: result.response
         }]);
       } else {
         throw new Error('AI service error');
       }
     } catch (error) {
       console.error('Error:', error);
-      setMessages(prev => [...prev, { 
-        type: 'ai', 
-        content: 'Sorry, I encountered an error. Please try again.' 
+      setMessages(prev => [...prev, {
+        type: 'ai',
+        content: 'Sorry, I encountered an error. Please try again.'
       }]);
     } finally {
       setIsLoading(false);
+      // On mobile, blur input after sending to close keyboard
+      if (isMobile && inputRef.current) {
+        inputRef.current.blur();
+      }
+      setIsInputFocused(false);
     }
   };
 
@@ -138,6 +152,8 @@ function Chatbox() {
 
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen);
+    // On mobile, reset input focus state
+    if (isMobile) setIsInputFocused(false);
   };
 
   const formatMessage = (content) => {
@@ -163,7 +179,7 @@ function Chatbox() {
           </svg>
         </button>
       )}
-      
+
       {/* Chat Button with Floating Bubbles */}
       <div className={`chat-button-container ${isMobile ? 'mobile' : 'desktop'} ${isMobile && isChatOpen ? 'chat-open' : ''}`}>
         {/* Floating Bubbles */}
@@ -177,7 +193,7 @@ function Chatbox() {
             <div className="bubble bubble-6"></div>
           </div>
         )}
-        
+
         {/* Learn More Message */}
         {!isChatOpen && (
           <div className={`learn-more-message ${isMobile ? 'mobile' : 'desktop'}`}>
@@ -187,7 +203,7 @@ function Chatbox() {
             </div>
           </div>
         )}
-        
+
         {/* Only show chat button when not mobile or when chat is closed */}
         {(!isMobile || !isChatOpen) && (
           <button
@@ -210,7 +226,10 @@ function Chatbox() {
       </div>
 
       {/* Chat Window */}
-      <div className={`chat-window ${isChatOpen ? 'open' : ''} ${isMobile ? 'mobile' : 'desktop'}`}>
+      <div
+        className={`chat-window ${isChatOpen ? 'open' : ''} ${isMobile ? 'mobile' : 'desktop'}${isInputFocused ? ' input-focused' : ''}`}
+        style={isMobile ? { height: isInputFocused ? `${viewportHeight}px` : '100vh', transition: 'height 0.3s' } : {}}
+      >
         <div className="chat-header">
           <div className="header-info">
             <div className="ai-avatar">
@@ -248,7 +267,7 @@ function Chatbox() {
         </div>
 
         <div className="chat-input-container">
-          <div className="chat-input-wrapper">
+          <div className="chat-input-wrapper" style={isMobile ? { position: 'relative' } : {}}>
             <textarea
               ref={inputRef}
               value={inputMessage}
@@ -258,7 +277,29 @@ function Chatbox() {
               className="chat-input"
               rows="1"
               disabled={isLoading}
+              onFocus={() => {
+                setIsInputFocused(true);
+                setTimeout(scrollToBottom, 200);
+              }}
+              onBlur={() => setIsInputFocused(false)}
+              style={isMobile ? { minHeight: '40px', fontSize: '16px', background: '#fff', zIndex: 2 } : {}}
             />
+            {/* Custom placeholder for mobile to ensure visibility */}
+            {isMobile && !inputMessage && !isLoading && (
+              <span
+                className="custom-placeholder"
+                style={{
+                  position: 'absolute',
+                  left: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#aaa',
+                  pointerEvents: 'none',
+                  fontSize: '16px',
+                  zIndex: 1
+                }}
+              >Ask me...</span>
+            )}
             <button
               onClick={sendMessage}
               disabled={!inputMessage.trim() || isLoading}
@@ -280,12 +321,13 @@ function Chatbox() {
 
       {/* Chat Overlay for mobile */}
       {isChatOpen && isMobile && (
-        <div 
-          className="chat-overlay" 
+        <div
+          className="chat-overlay"
           onClick={(e) => {
             // Only close if clicking on the overlay itself, not on chat content
             if (e.target === e.currentTarget) {
               setIsChatOpen(false);
+              setIsInputFocused(false);
             }
           }}
         ></div>
