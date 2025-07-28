@@ -280,7 +280,15 @@ function Chatbox() {
 
       {/* Chat Overlay for mobile */}
       {isChatOpen && isMobile && (
-        <div className="chat-overlay" onClick={() => setIsChatOpen(false)}></div>
+        <div 
+          className="chat-overlay" 
+          onClick={(e) => {
+            // Only close if clicking on the overlay itself, not on chat content
+            if (e.target === e.currentTarget) {
+              setIsChatOpen(false);
+            }
+          }}
+        ></div>
       )}
     </>
   );
