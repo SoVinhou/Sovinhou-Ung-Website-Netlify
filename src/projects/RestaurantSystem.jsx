@@ -17,7 +17,7 @@ const RestaurantSystem = () => {
                     </div>
                     <div className="flex space-x-4">
                     <a
-                        href="https://github.com/SoVinhou/DevLink-Web-App"
+                        href="https://github.com/SoVinhou/SengLipII"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-full transition-colors duration-200"
@@ -26,7 +26,7 @@ const RestaurantSystem = () => {
                         <span>View Code</span>
                     </a>
                     <a
-                        href="https://www.youtube.com/watch?v=blwlXa7b5PU"
+                        href="https://www.youtube.com/watch?v=R54y6uXKCVA"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-full transition-colors duration-200"
