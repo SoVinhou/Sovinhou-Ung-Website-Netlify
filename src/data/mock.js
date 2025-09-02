@@ -19,6 +19,13 @@ export const personalInfo = {
   resumePdf: "/resume/Sovinhou-Ung-CV.pdf"
 };
 
+export const restaurantProject = {
+  userDashboard: "/images/resud1.jpg",
+  chefDashboard: "/images/chef2.png",
+  adminDashboard: "/images/admin1.png"
+
+};
+
 export const skills = {
   advanced: ["Java", "TypeScript", "C++", "C#", "Python", "HTML/CSS", ".NET", "SQL", "React.js"],
   familiar: ["XML", "Node.js", "MongoDB", "PostgresQL", "Docker"],
@@ -70,27 +77,27 @@ export const education = [
   }
 ];
 
-export const projects = [
-  {
-    id: 1,
-    title: "DevLink Freelancing Platform",
-    description: "A full-stack web application connecting freelancers with clients, featuring secure authentication, payment integration, and AI-generated job descriptions.",
-    longDescription: "DevLink is a comprehensive freelancing platform built with React.js and Node.js. The application features secure user authentication, integrated payment processing, and utilizes GPT for generating compelling job descriptions. The platform includes database management for user profiles, job postings, and transaction history.",
-    techStack: ["React.js", "Node.js", "MongoDB", "Stripe API", "GPT Integration", "JWT Authentication"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-    githubUrl: "https://github.com/sovinhou/devlink-platform",
-    liveUrl: "https://devlink-platform.vercel.app",
-    features: [
-      "Secure user authentication and authorization",
-      "Real-time job posting and application system",
-      "Integrated payment processing with Stripe",
-      "AI-powered job description generation",
-      "Responsive design optimized for all devices"
-    ],
-    status: "Completed",
-    year: "2023"
-  }
-];
+// export const projects = [
+//   {
+//     id: 1,
+//     title: "DevLink Freelancing Platform",
+//     description: "A full-stack web application connecting freelancers with clients, featuring secure authentication, payment integration, and AI-generated job descriptions.",
+//     longDescription: "DevLink is a comprehensive freelancing platform built with React.js and Node.js. The application features secure user authentication, integrated payment processing, and utilizes GPT for generating compelling job descriptions. The platform includes database management for user profiles, job postings, and transaction history.",
+//     techStack: ["React.js", "Node.js", "MongoDB", "Stripe API", "GPT Integration", "JWT Authentication"],
+//     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+//     githubUrl: "https://github.com/sovinhou/devlink-platform",
+//     liveUrl: "https://devlink-platform.vercel.app",
+//     features: [
+//       "Secure user authentication and authorization",
+//       "Real-time job posting and application system",
+//       "Integrated payment processing with Stripe",
+//       "AI-powered job description generation",
+//       "Responsive design optimized for all devices"
+//     ],
+//     status: "Completed",
+//     year: "2023"
+//   }
+// ];
 
 export const testimonials = [
   {
