@@ -8,11 +8,8 @@ const IntroAnimation = ({ onComplete }) => {
   const greetings = [
     { text: 'Hello', language: 'English' },
     { text: 'Bonjour', language: 'Français' },
-    { text: 'Hola', language: 'Español' },
     { text: '你好', language: 'Chinese' },
-    { text: 'こんにちは', language: 'Japanese' },
-    { text: '안녕하세요', language: 'Korean' },
-    { text: 'Привет', language: 'Russian' }
+    { text: 'Hola', language: 'Español' }
   ];
 
   useEffect(() => {
@@ -24,11 +21,11 @@ const IntroAnimation = ({ onComplete }) => {
         // Type each character
         for (let i = 0; i <= text.length; i++) {
           setDisplayText(text.substring(0, i));
-          await new Promise(resolve => setTimeout(resolve, 80));
+          await new Promise(resolve => setTimeout(resolve, 20));
         }
         
         // Pause at full text
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 80));
         
         // Clear text (except for last greeting)
         if (langIndex < greetings.length - 1) {
@@ -41,7 +38,7 @@ const IntroAnimation = ({ onComplete }) => {
       }
       
       // Final pause before fade out
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       setIsCompleted(true);
       
       // Trigger fade out and completion
